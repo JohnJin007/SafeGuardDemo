@@ -6,8 +6,34 @@
 //
 
 #import "ViewController.h"
+#import "MKKVOObjectDemo.h"
 
-@interface ViewController ()
+@interface MKKVOObserver : NSObject
+
+@end
+
+@implementation MKKVOObserver
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    
+}
+
+- (void)dealloc {
+    NSLog(@"========dealloc");
+}
+
+@end
+
+@interface ViewController (){
+    MKKVOObjectDemo *_kvoDemo;
+    MKKVOObserver *_kvoObserver;
+}
+
+@property (nonatomic, copy) NSString* test;
+
+@property (nonatomic, copy) NSString* test1;
+
+@property (nonatomic, copy) NSString* demoString1;
 
 @end
 
@@ -17,6 +43,19 @@
     [super viewDidLoad];
     //test
     [self testSafeGuard];
+    
+    //Test KVO
+    _kvoDemo = [MKKVOObjectDemo new];
+    _kvoObserver = [MKKVOObserver new];
+    [self testKVO];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        _kvoObserver = nil;
+        self.demoString1 = @"11";
+    });
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    NSLog(@"Observed change: %@", change);
 }
 
 - (void)testSafeGuard {
@@ -176,5 +215,18 @@
     
 }
 
+- (void)testKVO {
+    [self addObserver:self forKeyPath:@"test1" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"test1" options:NSKeyValueObservingOptionNew context:nil];
+    
+    //crash
+    [self removeObserver:self forKeyPath:@"test0" context:nil];
+    
+    [self addObserver:self forKeyPath:@"test2" options:NSKeyValueObservingOptionNew context:nil];
+    
+    [_kvoDemo addObserver:self forKeyPath:@"demoString" options:NSKeyValueObservingOptionNew context:nil];
+    
+    [self addObserver:_kvoObserver forKeyPath:@"demoString1" options:NSKeyValueObservingOptionNew context:nil];
+}
 
 @end

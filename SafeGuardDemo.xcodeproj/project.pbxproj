@@ -13,6 +13,14 @@
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		03E967F52CF0872500810CD0 /* Exceptions for "SafeGuardDemo" folder in "SafeGuardDemo" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			additionalCompilerFlagsByRelativePath = {
+				"SafeGuard/NSArray+SafeSwizzling.m" = "-fno-objc-arc";
+				"SafeGuard/NSDictionary+SafeSwizzling.m" = "-fno-objc-arc";
+				"SafeGuard/NSMutableArray+SafeSwizzling.m" = "-fno-objc-arc";
+				"SafeGuard/NSMutableDictionary+SafeSwizzling.m" = "-fno-objc-arc";
+				"SafeGuard/NSObject+KVOCrash.m" = "-fno-objc-arc";
+				"SafeGuard/NSObject+SafeSwizzling.m" = "-fno-objc-arc";
+			};
 			membershipExceptions = (
 				Info.plist,
 			);

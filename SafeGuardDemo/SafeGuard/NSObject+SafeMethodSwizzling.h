@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
+#import <objc/message.h>
+
+// Only swizzle the current class,not swizzle all class
+// perform mk_cleanKVO selector before the origin dealloc
+void mk_swizzleDeallocIfNeeded(Class _Nullable class);
 
 NS_ASSUME_NONNULL_BEGIN
 
