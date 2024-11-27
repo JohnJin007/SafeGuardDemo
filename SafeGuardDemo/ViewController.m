@@ -7,6 +7,7 @@
 
 #import "ViewController.h"
 #import "KVOCrashObject.h"
+#import "KVCCrashObject.h"
 
 @interface ViewController ()
 
@@ -180,8 +181,9 @@
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    //KVO Test
     //    1.1 移除了未注册的观察者，导致崩溃
-    //     [self testKVOCrash11];
+         [self testKVOCrash11];
 
     //    1.2 重复移除多次，移除次数多于添加次数，导致崩溃
     //    [self testKVOCrash12];
@@ -196,8 +198,23 @@
     //    [self testKVOCrash3];
         
     //    4. 添加或者移除时 keypath == nil，导致崩溃。
-        [self testKVOCrash4];
+    //    [self testKVOCrash4];
+    
+    //KVC Test
+    //    1. key 不是对象的属性，造成崩溃
+    //    [self testKVCCrash1];
+
+    //    2. keyPath 不正确，造成崩溃
+    //    [self testKVCCrash2];
+
+    //    3. key 为 nil，造成崩溃
+    //    [self testKVCCrash4];
+
+    //    4. value 为 nil，为非对象设值，造成崩溃
+    //    [self testKVCCrash4];
 }
+
+#pragma mark - KVO
 
 /**
  1.1 移除了未注册的观察者，导致崩溃
@@ -273,6 +290,52 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void *)context {
 
     NSLog(@"object = %@, keyPath = %@", object, keyPath);
+}
+
+#pragma mark - KVC
+
+/**
+ 1. key 不是对象的属性，造成崩溃
+ */
+- (void)testKVCCrash1 {
+    // 崩溃日志：[<KVCCrashObject 0x600000d48ee0> setValue:forUndefinedKey:]: this class is not key value coding-compliant for the key XXX.;
+    
+    KVCCrashObject *objc = [[KVCCrashObject alloc] init];
+    [objc setValue:@"value" forKey:@"address"];
+}
+
+/**
+ 2. keyPath 不正确，造成崩溃
+ */
+- (void)testKVCCrash2 {
+    // 崩溃日志：[<KVCCrashObject 0x60000289afb0> valueForUndefinedKey:]: this class is not key value coding-compliant for the key XXX.
+    
+    KVCCrashObject *objc = [[KVCCrashObject alloc] init];
+    [objc setValue:@"后厂村路" forKeyPath:@"address.street"];
+}
+
+/**
+ 3. key 为 nil，造成崩溃
+ */
+- (void)testKVCCrash3 {
+    // 崩溃日志：'-[KVCCrashObject setValue:forKey:]: attempt to set a value for a nil key
+
+    NSString *keyName;
+    // key 为 nil 会崩溃，如果传 nil 会提示警告，传空变量则不会提示警告
+    
+    KVCCrashObject *objc = [[KVCCrashObject alloc] init];
+    [objc setValue:@"value" forKey:keyName];
+}
+
+/**
+ 4. value 为 nil，造成崩溃
+ */
+- (void)testKVCCrash4 {
+    // 崩溃日志：[<KVCCrashObject 0x6000028a6780> setNilValueForKey]: could not set nil as the value for the key XXX.
+    
+    // value 为 nil 会崩溃
+    KVCCrashObject *objc = [[KVCCrashObject alloc] init];
+    [objc setValue:nil forKey:@"age"];
 }
 
 #pragma mark - Setter and Getter
