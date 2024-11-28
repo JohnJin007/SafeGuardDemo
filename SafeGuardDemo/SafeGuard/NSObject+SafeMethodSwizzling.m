@@ -20,7 +20,7 @@ BOOL mk_requiresDeallocSwizzle(Class class)
     return !swizzled;
 }
 
-void mk_swizzleDeallocIfNeeded(Class class)
+void mk_swizzleDeallocIfNeeded(Class cls)
 {
     static SEL deallocSEL = NULL;
     static SEL cleanupSEL = NULL;
@@ -31,18 +31,18 @@ void mk_swizzleDeallocIfNeeded(Class class)
         cleanupSEL = sel_getUid("mk_cleanKVO");
     });
     
-    @synchronized (class) {
-        if (!mk_requiresDeallocSwizzle(class)) {
+    @synchronized (cls) {
+        if (!mk_requiresDeallocSwizzle(cls)) {
             return;
         }
         
-        objc_setAssociatedObject(class, &mkSwizzledDeallocKey, @(YES), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        objc_setAssociatedObject(cls, &mkSwizzledDeallocKey, @(YES), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     
     Method dealloc = NULL;
     
     unsigned int count = 0;
-    Method* method = class_copyMethodList(class, &count);
+    Method* method = class_copyMethodList(cls, &count);
     for (unsigned int i = 0; i < count; i++) {
         if (method_getName(method[i]) == deallocSEL) {
             dealloc = method[i];
@@ -51,9 +51,9 @@ void mk_swizzleDeallocIfNeeded(Class class)
     }
     
     if ( dealloc == NULL ) {
-        Class superclass = class_getSuperclass(class);
+        Class superclass = class_getSuperclass(cls);
         
-        class_addMethod(class, deallocSEL, imp_implementationWithBlock(^(__unsafe_unretained id self) {
+        class_addMethod(cls, deallocSEL, imp_implementationWithBlock(^(__unsafe_unretained id self) {
             
             ((void(*)(id, SEL))objc_msgSend)(self, cleanupSEL);
             
@@ -71,8 +71,8 @@ void mk_swizzleDeallocIfNeeded(Class class)
 }
 
 void mk_logExceptionMessage(NSString * _Nullable exceptionMessage) {
-    NSArray* callStack = [NSThread callStackSymbols];
 #ifdef DEBUG
+    NSArray* callStack = [NSThread callStackSymbols];
     NSLog(@"================================MKException Start==================================");
     NSLog(@"MKException Description ❌❌❌:%@",exceptionMessage);
     NSLog(@"MKException CallStack:%@",callStack);

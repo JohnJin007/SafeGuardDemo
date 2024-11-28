@@ -12,7 +12,7 @@
 
 // Only swizzle the current class,not swizzle all class
 // perform mk_cleanKVO selector before the origin dealloc
-void mk_swizzleDeallocIfNeeded(Class _Nullable class);
+void mk_swizzleDeallocIfNeeded(Class _Nullable cls);
 
 // print exception message
 void mk_logExceptionMessage(NSString * _Nullable exceptionMessage);
