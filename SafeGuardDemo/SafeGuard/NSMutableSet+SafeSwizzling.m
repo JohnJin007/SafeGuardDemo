@@ -28,7 +28,8 @@
 
 - (void)mksafe_addObject:(id)object {
     if (object == nil) {
-        NSLog(@"❌❌❌: Attempted to add nil object to NSMutableSet in mksafe_addObject:");
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to add nil object to NSMutableSet in mksafe_addObject:"];
+        mk_logExceptionMessage(exceptionMessage);
         return; // 忽略添加操作
     }
     [self mksafe_addObject:object];
@@ -36,7 +37,8 @@
 
 - (void)mksafe_removeObject:(id)object {
     if (object == nil) {
-        NSLog(@"❌❌❌: Attempted to remove nil object from NSMutableSet in mksafe_removeObject:");
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to remove nil object from NSMutableSet in mksafe_removeObject:"];
+        mk_logExceptionMessage(exceptionMessage);
         return; // 忽略删除操作
     }
     [self mksafe_removeObject:object];

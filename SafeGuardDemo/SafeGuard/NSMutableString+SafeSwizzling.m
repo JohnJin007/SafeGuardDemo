@@ -38,7 +38,8 @@
 
 - (void)mksafe_appendString:(NSString *)aString {
     if (aString == nil) {
-        NSLog(@"❌❌❌: Attempted to append nil string in mksafe_appendString:");
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to append nil string in mksafe_appendString:"];
+        mk_logExceptionMessage(exceptionMessage);
         return;
     }
     [self mksafe_appendString:aString];
@@ -46,11 +47,13 @@
 
 - (void)mksafe_insertString:(NSString *)aString atIndex:(NSUInteger)loc {
     if (aString == nil) {
-        NSLog(@"❌❌❌: Attempted to insert nil string in mksafe_insertString:atIndex:");
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to insert nil string in mksafe_insertString:atIndex:"];
+        mk_logExceptionMessage(exceptionMessage);
         return;
     }
     if (loc > self.length) {
-        NSLog(@"❌❌❌: Index %lu out of bounds in mksafe_insertString:atIndex: with string length %lu", (unsigned long)loc, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Index %lu out of bounds in mksafe_insertString:atIndex: with string length %lu", (unsigned long)loc, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         return;
     }
     [self mksafe_insertString:aString atIndex:loc];
@@ -58,7 +61,8 @@
 
 - (void)mksafe_deleteCharactersInRange:(NSRange)range {
     if (NSMaxRange(range) > self.length) {
-        NSLog(@"❌❌❌: Range {%lu, %lu} out of bounds in mksafe_deleteCharactersInRange: with string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Range {%lu, %lu} out of bounds in mksafe_deleteCharactersInRange: with string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         return;
     }
     [self mksafe_deleteCharactersInRange:range];
@@ -66,11 +70,13 @@
 
 - (void)mksafe_replaceCharactersInRange:(NSRange)range withString:(NSString *)aString {
     if (aString == nil) {
-        NSLog(@"❌❌❌: Attempted to replace with nil string in mksafe_replaceCharactersInRange:withString:");
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to replace with nil string in mksafe_replaceCharactersInRange:withString:"];
+        mk_logExceptionMessage(exceptionMessage);
         return;
     }
     if (NSMaxRange(range) > self.length) {
-        NSLog(@"❌❌❌: Range {%lu, %lu} out of bounds in mksafe_replaceCharactersInRange:withString: with string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Range {%lu, %lu} out of bounds in mksafe_replaceCharactersInRange:withString: with string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         return;
     }
     [self mksafe_replaceCharactersInRange:range withString:aString];
@@ -78,7 +84,8 @@
 
 - (NSString *)mksafe_substringFromIndex:(NSUInteger)index {
     if (index > self.length) {
-        NSLog(@"❌❌❌: Index %lu out of bounds in mksafe_substringFromIndex: with string length %lu", (unsigned long)index, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Index %lu out of bounds in mksafe_substringFromIndex: with string length %lu", (unsigned long)index, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         return nil;
     }
     return [self mksafe_substringFromIndex:index];
@@ -86,7 +93,8 @@
 
 - (NSString *)mksafe_substringToIndex:(NSUInteger)index {
     if (index > self.length) {
-        NSLog(@"❌❌❌: Index %lu out of bounds in mksafe_substringToIndex: with string length %lu", (unsigned long)index, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Index %lu out of bounds in mksafe_substringToIndex: with string length %lu", (unsigned long)index, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         return nil;
     }
     return [self mksafe_substringToIndex:index];
@@ -94,7 +102,8 @@
 
 - (NSString *)mksafe_substringWithRange:(NSRange)range {
     if (NSMaxRange(range) > self.length) {
-        NSLog(@"❌❌❌: Range {%lu, %lu} out of bounds in mksafe_substringWithRange: with string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Range {%lu, %lu} out of bounds in mksafe_substringWithRange: with string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         return nil;
     }
     return [self mksafe_substringWithRange:range];

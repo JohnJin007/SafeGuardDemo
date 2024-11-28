@@ -30,11 +30,13 @@
 
 - (void)mksafe_setObject:(id)object forKey:(id<NSCopying>)key {
     if (!object) {
-        NSLog(@"❌❌❌: Attempted to set nil object for key: %@", key);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to set nil object for key: %@", key];
+        mk_logExceptionMessage(exceptionMessage);
         return;
     }
     if (!key) {
-        NSLog(@"❌❌❌: Attempted to set object for nil key");
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to set object for nil key"];
+        mk_logExceptionMessage(exceptionMessage);
         return;
     }
     // 调用原始 setObject:forKey: 方法（通过方法交换）
@@ -46,13 +48,15 @@
         // 调用原始 setObject:forKeyedSubscript: 方法（通过方法交换）
         [self mksafe_setObject:object forKeyedSubscript:key];
     }else {
-        NSLog(@"❌❌❌: Attempted to set object:%@ for key:%@",object,key);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to set object:%@ for key:%@",object,key];
+        mk_logExceptionMessage(exceptionMessage);
     }
 }
 
 - (void)mksafe_removeObjectForKey:(id)key {
     if (!key) {
-        NSLog(@"❌❌❌: Attempted to remove object for nil key");
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to remove object for nil key"];
+        mk_logExceptionMessage(exceptionMessage);
         return;
     }
     // 调用原始 removeObjectForKey: 方法（通过方法交换）

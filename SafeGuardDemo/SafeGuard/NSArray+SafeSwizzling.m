@@ -54,7 +54,8 @@
 
 + (instancetype)mksafe_arrayWithObject:(id)object {
     if (object == nil) {
-        NSLog(@"❌❌❌: Attempted to create NSArray with nil object. Returning nil.");
+        NSString *exceptionMessage = @"Attempted to create NSArray with nil object. Returning nil.";
+        mk_logExceptionMessage(exceptionMessage);
         return nil;
     }
     return [self mksafe_arrayWithObject:object];
@@ -68,7 +69,8 @@
             validObjects[j] = objects[i];
             j++;
         } else {
-            NSLog(@"❌❌❌: Attempted to initialize NSArray(mksafe_arrayWithObjects:count:) with nil object at index %lu",(unsigned long)i);
+            NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to initialize NSArray(mksafe_arrayWithObjects:count:) with nil object at index %lu",(unsigned long)i];
+            mk_logExceptionMessage(exceptionMessage);
         }
     }
     return [self mksafe_arrayWithObjects:validObjects count:j];
@@ -82,7 +84,8 @@
             validObjects[j] = objects[i];
             j++;
         } else {
-            NSLog(@"❌❌❌: Attempted to initialize NSArray(mksafe_initWithObjects:count:) with nil object at index %lu",(unsigned long)i);
+            NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to initialize NSArray(mksafe_initWithObjects:count:) with nil object at index %lu",(unsigned long)i];
+            mk_logExceptionMessage(exceptionMessage);
         }
     }
     
@@ -93,7 +96,8 @@
 - (id)mksafe_empty_objectAtIndex:(NSUInteger)index {
     // 检查数组是否为空并避免越界访问
     if (self.count == 0) {
-        NSLog(@"❌❌❌: Attempted to access index %lu in an empty NSArray (__NSArray0).", (unsigned long)index);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to access index %lu in an empty NSArray (__NSArray0).", (unsigned long)index];
+        mk_logExceptionMessage(exceptionMessage);
         return nil; // 返回 nil，避免崩溃
     }
     
@@ -107,7 +111,8 @@
         // 调用原始的 objectAtIndexedSubscript: 方法（通过方法交换）
         return [self mksafe_empty_objectAtIndexedSubscript:idx];
     } else {
-        NSLog(@"❌❌❌: Idx %lu out of bounds for  NSArray (__NSArray0) of count %lu", (unsigned long)idx, (unsigned long)self.count);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Idx %lu out of bounds for  NSArray (__NSArray0) of count %lu", (unsigned long)idx, (unsigned long)self.count];
+        mk_logExceptionMessage(exceptionMessage);
         return nil; // 返回 nil 或默认值
     }
 }
@@ -115,7 +120,8 @@
 - (id)mksafe_single_objectAtIndex:(NSUInteger)index {
     // 检查索引是否有效，防止越界访问
     if (index >= self.count) {
-        NSLog(@"❌❌❌: Attempted to access index %lu in a single-object NSArray (__NSSingleObjectArrayI) with count %lu.", (unsigned long)index, (unsigned long)self.count);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to access index %lu in a single-object NSArray (__NSSingleObjectArrayI) with count %lu.", (unsigned long)index, (unsigned long)self.count];
+        mk_logExceptionMessage(exceptionMessage);
         return nil; // 返回 nil，避免崩溃
     }
     
@@ -129,7 +135,8 @@
         // 调用原始的 objectAtIndexedSubscript: 方法（通过方法交换）
         return [self mksafe_single_objectAtIndexedSubscript:idx];
     } else {
-        NSLog(@"❌❌❌: Idx %lu out of bounds for NSArray (__NSSingleObjectArrayI) of count %lu", (unsigned long)idx, (unsigned long)self.count);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Idx %lu out of bounds for NSArray (__NSSingleObjectArrayI) of count %lu", (unsigned long)idx, (unsigned long)self.count];
+        mk_logExceptionMessage(exceptionMessage);
         return nil; // 返回 nil 或默认值
     }
 }
@@ -138,7 +145,8 @@
     if (index < self.count) {
         return [self mksafe_objectAtIndex:index];
     } else {
-        NSLog(@"❌❌❌: Array index %lu is out of bounds. Returning nil.", (unsigned long)index);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Array index %lu is out of bounds. Returning nil.", (unsigned long)index];
+        mk_logExceptionMessage(exceptionMessage);
         return nil;
     }
 }
@@ -149,7 +157,8 @@
         // 调用原始的 objectAtIndexedSubscript: 方法（通过方法交换）
         return [self mksafe_objectAtIndexedSubscript:idx];
     } else {
-        NSLog(@"❌❌❌: Idx %lu out of bounds for NSArray (__NSArrayI) of count %lu", (unsigned long)idx, (unsigned long)self.count);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Idx %lu out of bounds for NSArray (__NSArrayI) of count %lu", (unsigned long)idx, (unsigned long)self.count];
+        mk_logExceptionMessage(exceptionMessage);
         return nil; // 返回 nil 或默认值
     }
 }
@@ -163,10 +172,13 @@
         // 返回一个安全范围的子数组
         NSRange safeRange = NSMakeRange(range.location, self.count - range.location);
         // 如果范围无效，打印警告并返回一个安全的子数组
-        NSLog(@"❌❌❌: Attempted to access subarray with out-of-bounds range %@. Returning available subarray range %@.", NSStringFromRange(range),NSStringFromRange(safeRange));
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to access subarray with out-of-bounds range %@. Returning available subarray range %@.", NSStringFromRange(range),NSStringFromRange(safeRange)];
+        mk_logExceptionMessage(exceptionMessage);
+        
         return [self mksafe_subarrayWithRange:safeRange];
     }else {
-        NSLog(@"❌❌❌: Attempted to access subarray with out-of-bounds range %@. Returning nil.", NSStringFromRange(range));
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to access subarray with out-of-bounds range %@. Returning nil.", NSStringFromRange(range)];
+        mk_logExceptionMessage(exceptionMessage);
         return nil;
     }
 }

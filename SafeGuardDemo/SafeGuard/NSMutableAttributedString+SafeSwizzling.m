@@ -42,7 +42,8 @@
 
 - (instancetype)mksafe_initWithString:(NSString *)str {
     if (str == nil) {
-        NSLog(@"❌❌❌: Attempting to initialize NSMutableAttributedString with nil string in mksafe_initWithString:, defaulting to empty string.");
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempting to initialize NSMutableAttributedString with nil string in mksafe_initWithString:, defaulting to empty string."];
+        mk_logExceptionMessage(exceptionMessage);
         str = @"";  // 使用空字符串以防止崩溃
     }
     return [self mksafe_initWithString:str];
@@ -50,7 +51,8 @@
 
 - (instancetype)mksafe_initWithString:(NSString *)str attributes:(NSDictionary<NSAttributedStringKey, id> *)attrs {
     if (str == nil) {
-        NSLog(@"❌❌❌: Attempting to initialize NSMutableAttributedString with nil string in mksafe_initWithString:attributes:, defaulting to empty string.");
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempting to initialize NSMutableAttributedString with nil string in mksafe_initWithString:attributes:, defaulting to empty string."];
+        mk_logExceptionMessage(exceptionMessage);
         str = @"";  // 使用空字符串以防止崩溃
     }
     return [self mksafe_initWithString:str attributes:attrs];
@@ -58,12 +60,14 @@
 
 - (void)mksafe_addAttribute:(NSAttributedStringKey)name value:(id)value range:(NSRange)range {
     if (name == nil || value == nil) {
-        NSLog(@"❌❌❌: Attempted to add nil attribute or value in mksafe_addAttribute:value:range:");
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to add nil attribute or value in mksafe_addAttribute:value:range:"];
+        mk_logExceptionMessage(exceptionMessage);
         return;
     }
     
     if (NSMaxRange(range) > self.length) {
-        NSLog(@"❌❌❌: Range {%lu, %lu} out of bounds in mksafe_addAttribute:value:range: with mutable attributed string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Range {%lu, %lu} out of bounds in mksafe_addAttribute:value:range: with mutable attributed string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         
         // 调整范围，避免越界崩溃
         range = NSMakeRange(range.location, self.length - range.location);
@@ -73,7 +77,8 @@
 
 - (void)mksafe_addAttributes:(NSDictionary<NSAttributedStringKey, id> *)attrs range:(NSRange)range {
     if (NSMaxRange(range) > self.length) {
-        NSLog(@"❌❌❌: Range {%lu, %lu} out of bounds in mksafe_addAttributes:range: with mutable attributed string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Range {%lu, %lu} out of bounds in mksafe_addAttributes:range: with mutable attributed string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         
         // 调整范围，避免越界崩溃
         range = NSMakeRange(range.location, self.length - range.location);
@@ -83,7 +88,8 @@
 
 - (void)mksafe_removeAttribute:(NSAttributedStringKey)name range:(NSRange)range {
     if (NSMaxRange(range) > self.length) {
-        NSLog(@"❌❌❌: Range {%lu, %lu} out of bounds in mksafe_removeAttribute:range: with mutable attributed string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Range {%lu, %lu} out of bounds in mksafe_removeAttribute:range: with mutable attributed string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         
         // 调整范围，避免越界崩溃
         range = NSMakeRange(range.location, self.length - range.location);
@@ -93,7 +99,8 @@
 
 - (void)mksafe_setAttributes:(NSDictionary<NSAttributedStringKey, id> *)attributes range:(NSRange)range {
     if (NSMaxRange(range) > self.length) {
-        NSLog(@"❌❌❌: Range {%lu, %lu} out of bounds in mksafe_setAttributes:range: with mutable attributed string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Range {%lu, %lu} out of bounds in mksafe_setAttributes:range: with mutable attributed string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         
         // 调整范围，避免越界崩溃
         range = NSMakeRange(range.location, self.length - range.location);
@@ -103,7 +110,8 @@
 
 - (void)mksafe_deleteCharactersInRange:(NSRange)range {
     if (NSMaxRange(range) > self.length) {
-        NSLog(@"❌❌❌: Range {%lu, %lu} out of bounds in mksafe_deleteCharactersInRange: with mutable attributed string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Range {%lu, %lu} out of bounds in mksafe_deleteCharactersInRange: with mutable attributed string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         
         // 如果范围无效，不执行删除操作
         return;
@@ -113,7 +121,8 @@
 
 - (void)mksafe_replaceCharactersInRange:(NSRange)range withString:(NSString *)str {
     if (NSMaxRange(range) > self.length) {
-        NSLog(@"❌❌❌: Range {%lu, %lu} out of bounds in mksafe_replaceCharactersInRange:withString: with mutable attributed string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Range {%lu, %lu} out of bounds in mksafe_replaceCharactersInRange:withString: with mutable attributed string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         
         // 如果范围无效，不执行替换操作
         return;
@@ -123,7 +132,8 @@
 
 - (void)mksafe_replaceCharactersInRange:(NSRange)range withAttributedString:(NSAttributedString *)attrStr {
     if (NSMaxRange(range) > self.length) {
-        NSLog(@"❌❌❌: Range {%lu, %lu} out of bounds in mksafe_replaceCharactersInRange:withAttributedString: with mutable attributed string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Range {%lu, %lu} out of bounds in mksafe_replaceCharactersInRange:withAttributedString: with mutable attributed string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         
         return;
     }

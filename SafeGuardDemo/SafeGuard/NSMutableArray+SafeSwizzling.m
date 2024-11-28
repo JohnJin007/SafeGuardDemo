@@ -40,7 +40,8 @@
 
 - (void)mksafe_addObject:(id)object {
     if (object == nil) {
-        NSLog(@"❌❌❌: Attempted to add nil object to __NSArrayM array");
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to add nil object to __NSArrayM array"];
+        mk_logExceptionMessage(exceptionMessage);
     } else {
         // 调用原始 addObject: 方法（通过方法交换）
         [self mksafe_addObject:object];
@@ -52,7 +53,8 @@
         // 调用原始 objectAtIndex: 方法（通过方法交换）
         return [self mksafe_objectAtIndex:index];
     } else {
-        NSLog(@"❌❌❌: Index %lu out of bounds for __NSArrayM array of count %lu", (unsigned long)index, (unsigned long)self.count);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Index %lu out of bounds for __NSArrayM array of count %lu", (unsigned long)index, (unsigned long)self.count];
+        mk_logExceptionMessage(exceptionMessage);
         return nil; // 返回 nil 或者其他默认值
     }
 }
@@ -63,16 +65,19 @@
         // 调用原始的 objectAtIndexedSubscript: 方法（通过方法交换）
         return [self mksafe_objectAtIndexedSubscript:idx];
     } else {
-        NSLog(@"❌❌❌: Idx %lu out of bounds for __NSArrayM array of count %lu", (unsigned long)idx, (unsigned long)self.count);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Idx %lu out of bounds for __NSArrayM array of count %lu", (unsigned long)idx, (unsigned long)self.count];
+        mk_logExceptionMessage(exceptionMessage);
         return nil; // 返回 nil 或默认值
     }
 }
 
 - (void)mksafe_insertObject:(id)anObject atIndex:(NSUInteger)index {
     if (anObject == nil) {
-        NSLog(@"❌❌❌: Attempted to insert nil object at index %lu", (unsigned long)index);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to insert nil object at index %lu", (unsigned long)index];
+        mk_logExceptionMessage(exceptionMessage);
     } else if (index > self.count) {
-        NSLog(@"❌❌❌: Attempted to insert object at an invalid index %lu, array count is %lu", (unsigned long)index, (unsigned long)self.count);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to insert object at an invalid index %lu, array count is %lu", (unsigned long)index, (unsigned long)self.count];
+        mk_logExceptionMessage(exceptionMessage);
     } else {
         // 调用原始 insertObject:atIndex: 方法（通过方法交换）
         [self mksafe_insertObject:anObject atIndex:index];
@@ -81,7 +86,8 @@
 
 - (void)mksafe_removeObjectAtIndex:(NSUInteger)index {
     if (index >= self.count) {
-        NSLog(@"❌❌❌: Attempted to remove object at invalid index %lu, array count is %lu", (unsigned long)index, (unsigned long)self.count);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to remove object at invalid index %lu, array count is %lu", (unsigned long)index, (unsigned long)self.count];
+        mk_logExceptionMessage(exceptionMessage);
     } else {
         // 调用原始 removeObjectAtIndex: 方法（通过方法交换）
         [self mksafe_removeObjectAtIndex:index];
@@ -90,9 +96,11 @@
 
 - (void)mksafe_replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject {
     if (anObject == nil) {
-        NSLog(@"❌❌❌: Attempted to replace object with nil at index %lu", (unsigned long)index);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to replace object with nil at index %lu", (unsigned long)index];
+        mk_logExceptionMessage(exceptionMessage);
     } else if (index >= self.count) {
-        NSLog(@"❌❌❌: Attempted to replace object at invalid index %lu, array count is %lu", (unsigned long)index, (unsigned long)self.count);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to replace object at invalid index %lu, array count is %lu", (unsigned long)index, (unsigned long)self.count];
+        mk_logExceptionMessage(exceptionMessage);
     } else {
         // 调用原始 replaceObjectAtIndex:withObject: 方法（通过方法交换）
         [self mksafe_replaceObjectAtIndex:index withObject:anObject];
@@ -101,7 +109,8 @@
 
 - (void)mksafe_removeObjectsInRange:(NSRange)range {
     if (range.location + range.length > self.count) {
-        NSLog(@"❌❌❌: Attempted to remove objects in invalid range %@, array count is %lu", NSStringFromRange(range), (unsigned long)self.count);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to remove objects in invalid range %@, array count is %lu", NSStringFromRange(range), (unsigned long)self.count];
+        mk_logExceptionMessage(exceptionMessage);
     } else {
         // 调用原始 removeObjectsInRange: 方法（通过方法交换）
         [self mksafe_removeObjectsInRange:range];
@@ -113,7 +122,8 @@
         // 调用原始 setObject:atIndexedSubscript: 方法（通过方法交换）
         [self mksafe_setObject:object atIndexedSubscript:index];
     }else {
-        NSLog(@"❌❌❌:Attempted to set object:%@ at index %lu, array count is %lu", object,(unsigned long)index, (unsigned long)self.count);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to set object:%@ at index %lu, array count is %lu", object,(unsigned long)index, (unsigned long)self.count];
+        mk_logExceptionMessage(exceptionMessage);
     }
 }
 

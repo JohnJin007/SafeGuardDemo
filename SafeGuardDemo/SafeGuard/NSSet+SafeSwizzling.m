@@ -29,7 +29,8 @@
 
 + (instancetype)mksafe_setWithObject:(id)object{
     if (object == nil){
-        NSLog(@"❌❌❌: NSSet mksafe_setWithObject nil object");
+        NSString *exceptionMessage = [NSString stringWithFormat:@"NSSet mksafe_setWithObject nil object"];
+        mk_logExceptionMessage(exceptionMessage);
         return nil;
     }
     return [self mksafe_setWithObject:object];
@@ -44,7 +45,8 @@
             validObjects[validCount] = objects[i];
             validCount++;
         } else {
-            NSLog(@"❌❌❌: Attempted to add nil object to NSSet in mksafe_initWithObjects:count:");
+            NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to add nil object to NSSet in mksafe_initWithObjects:count:"];
+            mk_logExceptionMessage(exceptionMessage);
         }
     }
     return [self mksafe_initWithObjects:validObjects count:validCount];

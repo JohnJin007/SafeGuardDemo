@@ -70,6 +70,16 @@ void mk_swizzleDeallocIfNeeded(Class class)
     }
 }
 
+void mk_logExceptionMessage(NSString * _Nullable exceptionMessage) {
+    NSArray* callStack = [NSThread callStackSymbols];
+#ifdef DEBUG
+    NSLog(@"================================MKException Start==================================");
+    NSLog(@"MKException Description ❌❌❌:%@",exceptionMessage);
+    NSLog(@"MKException CallStack:%@",callStack);
+    NSLog(@"================================MKException End====================================");
+#endif
+}
+
 void swizzleClassMethod(Class cls, SEL originSelector, SEL swizzleSelector) {
     if (!cls) {
         return;
@@ -127,8 +137,8 @@ void swizzleInstanceMethod(Class cls, SEL originSelector, SEL swizzleSelector) {
     swizzleClassMethod(self.class, originSelector, swizzleSelector);
 }
 
-+ (void)mk_swizzleInstanceMethodClass:(Class)class withInstanceMethod:(SEL)originSelector withSwizzleMethod:(SEL)swizzleSelector {
-    swizzleInstanceMethod(class, originSelector, swizzleSelector);
++ (void)mk_swizzleInstanceMethodClass:(Class)cls withInstanceMethod:(SEL)originSelector withSwizzleMethod:(SEL)swizzleSelector {
+    swizzleInstanceMethod(cls, originSelector, swizzleSelector);
 }
 
 @end

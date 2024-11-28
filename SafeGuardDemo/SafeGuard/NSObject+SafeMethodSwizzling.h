@@ -14,6 +14,9 @@
 // perform mk_cleanKVO selector before the origin dealloc
 void mk_swizzleDeallocIfNeeded(Class _Nullable class);
 
+// print exception message
+void mk_logExceptionMessage(NSString * _Nullable exceptionMessage);
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface NSObject (SafeMethodSwizzling)
@@ -32,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param originSelector originSelector
  @param swizzleSelector swizzleSelector
  */
-+ (void)mk_swizzleInstanceMethodClass:(Class)class withInstanceMethod:(SEL)originSelector withSwizzleMethod:(SEL)swizzleSelector;
++ (void)mk_swizzleInstanceMethodClass:(Class)cls withInstanceMethod:(SEL)originSelector withSwizzleMethod:(SEL)swizzleSelector;
 
 @end
 

@@ -276,7 +276,8 @@ static const char DeallocMKKVOKey;
     @try {
         [self mksafe_observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     } @catch (NSException *exception) {
-        NSLog(@"❌❌❌: KVO Crash%@", exception.description);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"KVO Crash%@", exception.description];
+        mk_logExceptionMessage(exceptionMessage);
     }
 }
 

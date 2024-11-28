@@ -26,8 +26,8 @@
 
 - (void)mksafe_setValue:(id)value forKey:(NSString *)key {
     if (key == nil) {
-        NSString *crashMessages = [NSString stringWithFormat:@"KVC Crash: [<%@ %p> setNilValueForKey]: could not set nil as the value for the key %@.",NSStringFromClass([self class]),self,key];
-        NSLog(@"❌❌❌: %@", crashMessages);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"KVC Crash: [<%@ %p> setNilValueForKey]: could not set nil as the value for the key %@.",NSStringFromClass([self class]),self,key];
+        mk_logExceptionMessage(exceptionMessage);
         return;
     }
 
@@ -35,18 +35,18 @@
 }
 
 - (void)setNilValueForKey:(NSString *)key {
-    NSString *crashMessages = [NSString stringWithFormat:@"KVC Crash : [<%@ %p> setNilValueForKey]: could not set nil as the value for the key %@.",NSStringFromClass([self class]),self,key];
-    NSLog(@"❌❌❌: %@", crashMessages);
+    NSString *exceptionMessage = [NSString stringWithFormat:@"KVC Crash : [<%@ %p> setNilValueForKey]: could not set nil as the value for the key %@.",NSStringFromClass([self class]),self,key];
+    mk_logExceptionMessage(exceptionMessage);
 }
 
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key {
-    NSString *crashMessages = [NSString stringWithFormat:@"KVC Crash : [<%@ %p> setValue:forUndefinedKey:]: this class is not key value coding-compliant for the key: %@,value:%@'",NSStringFromClass([self class]),self,key,value];
-    NSLog(@"❌❌❌: %@", crashMessages);
+    NSString *exceptionMessage = [NSString stringWithFormat:@"KVC Crash : [<%@ %p> setValue:forUndefinedKey:]: this class is not key value coding-compliant for the key: %@,value:%@'",NSStringFromClass([self class]),self,key,value];
+    mk_logExceptionMessage(exceptionMessage);
 }
 
 - (nullable id)valueForUndefinedKey:(NSString *)key {
-    NSString *crashMessages = [NSString stringWithFormat:@"KVC Crash :[<%@ %p> valueForUndefinedKey:]: this class is not key value coding-compliant for the key: %@",NSStringFromClass([self class]),self,key];
-    NSLog(@"❌❌❌: %@", crashMessages);
+    NSString *exceptionMessage = [NSString stringWithFormat:@"KVC Crash :[<%@ %p> valueForUndefinedKey:]: this class is not key value coding-compliant for the key: %@",NSStringFromClass([self class]),self,key];
+    mk_logExceptionMessage(exceptionMessage);
     
     return self;
 }

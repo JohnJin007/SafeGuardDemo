@@ -31,11 +31,13 @@
 
 + (instancetype)mksafe_dictionaryWithObject:(id)object forKey:(id<NSCopying>)key {
     if (!object) {
-        NSLog(@"❌❌❌: Attempted to insert nil object for key %@", key);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to insert nil object for key %@", key];
+        mk_logExceptionMessage(exceptionMessage);
         return nil;
     }
     if (!key) {
-        NSLog(@"❌❌❌: Attempted to insert object for nil key");
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to insert object for nil key"];
+        mk_logExceptionMessage(exceptionMessage);
         return nil;
     }
     return [self mksafe_dictionaryWithObject:object forKey:key];
@@ -55,10 +57,12 @@
             j++;
         } else {
             if (!key) {
-                NSLog(@"❌❌❌: Attempted to insert nil key at index %lu. Skipping.", (unsigned long)i);
+                NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to insert nil key at index %lu. Skipping.", (unsigned long)i];
+                mk_logExceptionMessage(exceptionMessage);
             }
             if (!object) {
-                NSLog(@"❌❌❌: Attempted to insert nil object for key %@ at index %lu. Skipping.", key, (unsigned long)i);
+                NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to insert nil object for key %@ at index %lu. Skipping.", key, (unsigned long)i];
+                mk_logExceptionMessage(exceptionMessage);
             }
         }
     }
@@ -81,10 +85,12 @@
             j++;
         } else {
             if (!key) {
-                NSLog(@"❌❌❌: Attempted to insert nil key at index %lu. Skipping.", (unsigned long)i);
+                NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to insert nil key at index %lu. Skipping.", (unsigned long)i];
+                mk_logExceptionMessage(exceptionMessage);
             }
             if (!object) {
-                NSLog(@"❌❌❌: Attempted to insert nil object for key %@ at index %lu. Skipping.", key, (unsigned long)i);
+                NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to insert nil object for key %@ at index %lu. Skipping.", key, (unsigned long)i];
+                mk_logExceptionMessage(exceptionMessage);
             }
         }
     }

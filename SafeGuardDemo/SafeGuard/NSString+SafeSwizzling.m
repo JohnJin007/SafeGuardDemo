@@ -39,7 +39,8 @@
 
 + (instancetype)mksafe_stringWithUTF8String:(const char *)nullCString {
     if (nullCString == NULL) {
-        NSLog(@"❌❌❌: mksafe_stringWithUTF8String received NULL cString");
+        NSString *exceptionMessage = [NSString stringWithFormat:@"mksafe_stringWithUTF8String received NULL cString"];
+        mk_logExceptionMessage(exceptionMessage);
         return nil;
     }
     return [self mksafe_stringWithUTF8String:nullCString];
@@ -48,7 +49,8 @@
 + (instancetype)mksafe_stringWithCString:(const char *)cString encoding:(NSStringEncoding)encoding
 {
     if (NULL == cString){
-        NSLog(@"❌❌❌: mksafe_stringWithCString:encoding: received NULL cString");
+        NSString *exceptionMessage = [NSString stringWithFormat:@"mksafe_stringWithCString:encoding: received NULL cString"];
+        mk_logExceptionMessage(exceptionMessage);
         return nil;
     }
     return [self mksafe_stringWithCString:cString encoding:encoding];
@@ -56,7 +58,8 @@
 
 - (unichar)mksafe_characterAtIndex:(NSUInteger)index {
     if (index >= self.length) {
-        NSLog(@"❌❌❌: Index %lu out of bounds in mksafe_characterAtIndex: with string length %lu", (unsigned long)index, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Index %lu out of bounds in mksafe_characterAtIndex: with string length %lu", (unsigned long)index, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         return 0;
     }
     return [self mksafe_characterAtIndex:index];
@@ -64,7 +67,8 @@
 
 - (NSString *)mksafe_constant_substringFromIndex:(NSUInteger)index {
     if (index > self.length) {
-        NSLog(@"❌❌❌: Index %lu out of bounds in mksafe_constant_substringFromIndex: with string length %lu", (unsigned long)index, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Index %lu out of bounds in mksafe_constant_substringFromIndex: with string length %lu", (unsigned long)index, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         return @"";
     }
     return [self mksafe_constant_substringFromIndex:index];
@@ -72,7 +76,8 @@
 
 - (NSString *)mksafe_constant_substringToIndex:(NSUInteger)index {
     if (index > self.length) {
-        NSLog(@"❌❌❌: Index %lu out of bounds in mksafe_constant_substringToIndex: with string length %lu", (unsigned long)index, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Index %lu out of bounds in mksafe_constant_substringToIndex: with string length %lu", (unsigned long)index, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         return @"";
     }
     return [self mksafe_constant_substringToIndex:index];
@@ -80,7 +85,8 @@
 
 - (NSString *)mksafe_constant_substringWithRange:(NSRange)range {
     if (NSMaxRange(range) > self.length) {
-        NSLog(@"❌❌❌: Range {%lu, %lu} out of bounds in mksafe_constant_substringWithRange: with string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Range {%lu, %lu} out of bounds in mksafe_constant_substringWithRange: with string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         return @"";
     }
     return [self mksafe_constant_substringWithRange:range];
@@ -88,11 +94,13 @@
 
 - (NSRange)mksafe_rangeOfString:(NSString *)searchString options:(NSStringCompareOptions)options range:(NSRange)range locale:(NSLocale *)locale {
     if (!searchString) {
-        NSLog(@"❌❌❌: Attempted to search nil string in mksafe_rangeOfString:options:range:locale:");
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to search nil string in mksafe_rangeOfString:options:range:locale:"];
+        mk_logExceptionMessage(exceptionMessage);
         return NSMakeRange(NSNotFound, 0);
     }
     if (NSMaxRange(range) > self.length) {
-        NSLog(@"❌❌❌: Range {%lu, %lu} out of bounds in mksafe_rangeOfString:options:range:locale: with string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Range {%lu, %lu} out of bounds in mksafe_rangeOfString:options:range:locale: with string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         return NSMakeRange(NSNotFound, 0);
     }
     return [self mksafe_rangeOfString:searchString options:options range:range locale:locale];

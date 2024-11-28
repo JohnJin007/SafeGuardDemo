@@ -34,7 +34,8 @@
 
 - (instancetype)mksafe_initWithString:(NSString *)str {
     if (str == nil) {
-        NSLog(@"❌❌❌: Attempted to initialize NSAttributedString with nil string in mksafe_initWithString:");
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Attempted to initialize NSAttributedString with nil string in mksafe_initWithString:"];
+        mk_logExceptionMessage(exceptionMessage);
         return nil;
     }
     return [self mksafe_initWithString:str];
@@ -42,7 +43,8 @@
 
 - (NSAttributedString *)mksafe_attributedSubstringFromRange:(NSRange)range {
     if (NSMaxRange(range) > self.length) {
-        NSLog(@"❌❌❌: Range {%lu, %lu} out of bounds in mksafe_attributedSubstringFromRange: with attributed string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Range {%lu, %lu} out of bounds in mksafe_attributedSubstringFromRange: with attributed string length %lu", (unsigned long)range.location, (unsigned long)range.length, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         return nil;
     }
     return [self mksafe_attributedSubstringFromRange:range];
@@ -50,7 +52,8 @@
 
 - (id)mksafe_attribute:(NSAttributedStringKey)attrName atIndex:(NSUInteger)index effectiveRange:(NSRangePointer)range {
     if (index >= self.length) {
-        NSLog(@"❌❌❌: Index %lu out of bounds in mksafe_attribute:atIndex:effectiveRange: with attributed string length %lu", (unsigned long)index, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Index %lu out of bounds in mksafe_attribute:atIndex:effectiveRange: with attributed string length %lu", (unsigned long)index, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         return nil;
     }
     return [self mksafe_attribute:attrName atIndex:index effectiveRange:range];
@@ -58,7 +61,8 @@
 
 - (void)mksafe_enumerateAttribute:(NSAttributedStringKey)attrName inRange:(NSRange)enumerationRange options:(NSAttributedStringEnumerationOptions)opts usingBlock:(void (^)(id value, NSRange range, BOOL *stop))block {
     if (NSMaxRange(enumerationRange) > self.length) {
-        NSLog(@"❌❌❌: Range {%lu, %lu} out of bounds in mksafe_enumerateAttribute:inRange:options:usingBlock: with attributed string length %lu", (unsigned long)enumerationRange.location, (unsigned long)enumerationRange.length, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Range {%lu, %lu} out of bounds in mksafe_enumerateAttribute:inRange:options:usingBlock: with attributed string length %lu", (unsigned long)enumerationRange.location, (unsigned long)enumerationRange.length, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         
         // 修正范围，以避免超出边界的崩溃
         enumerationRange = NSMakeRange(enumerationRange.location, self.length - enumerationRange.location);
@@ -69,7 +73,8 @@
 
 - (void)mksafe_enumerateAttributesInRange:(NSRange)enumerationRange options:(NSAttributedStringEnumerationOptions)opts usingBlock:(void (^)(NSDictionary<NSAttributedStringKey, id> *attrs, NSRange range, BOOL *stop))block {
     if (NSMaxRange(enumerationRange) > self.length) {
-        NSLog(@"❌❌❌: Range {%lu, %lu} out of bounds in mksafe_enumerateAttributesInRange:options:usingBlock: with attributed string length %lu", (unsigned long)enumerationRange.location, (unsigned long)enumerationRange.length, (unsigned long)self.length);
+        NSString *exceptionMessage = [NSString stringWithFormat:@"Range {%lu, %lu} out of bounds in mksafe_enumerateAttributesInRange:options:usingBlock: with attributed string length %lu", (unsigned long)enumerationRange.location, (unsigned long)enumerationRange.length, (unsigned long)self.length];
+        mk_logExceptionMessage(exceptionMessage);
         
         // 修正范围，以避免超出边界的崩溃
         enumerationRange = NSMakeRange(enumerationRange.location, self.length - enumerationRange.location);

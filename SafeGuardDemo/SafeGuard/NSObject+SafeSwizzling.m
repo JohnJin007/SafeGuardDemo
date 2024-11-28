@@ -56,7 +56,8 @@
 
 + (void)mksafe_classForwardInvocation:(NSInvocation*)invocation{
     SEL selector = [invocation selector];
-    NSLog(@"❌❌❌: Static class %@ does not implement selector %@", NSStringFromClass(self.class), NSStringFromSelector(selector));
+    NSString *exceptionMessage = [NSString stringWithFormat:@"Static class %@ does not implement selector %@", NSStringFromClass(self.class), NSStringFromSelector(selector)];
+    mk_logExceptionMessage(exceptionMessage);
 }
 
 - (NSMethodSignature*)mksafe_instanceMethodSignatureForSelector:(SEL)aSelector {
@@ -70,7 +71,8 @@
 
 - (void)mksafe_instanceForwardInvocation:(NSInvocation*)invocation{
     SEL selector = [invocation selector];
-    NSLog(@"❌❌❌: Instance class %@ does not implement selector %@", NSStringFromClass(self.class), NSStringFromSelector(selector));
+    NSString *exceptionMessage = [NSString stringWithFormat:@"Instance class %@ does not implement selector %@", NSStringFromClass(self.class), NSStringFromSelector(selector)];
+    mk_logExceptionMessage(exceptionMessage);
 }
 
 @end
